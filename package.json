@@ -1,15 +1,15 @@
 {
-  "name": "mcp-telegram",
-  "version": "0.0.1",
+  "name": "telegram-personal-mcp",
+  "version": "1.0.0",
   "description": "MCP server to work with Telegram through MTProto",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": "Alexey Elizarov <alex.elizarov1@gmail.com>",
+  "author": "Mykola Demchuk",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tacticlaunch/mcp-telegram"
+    "url": "https://github.com/DemchukM/telegram-personal-mcp.git"
   },
   "keywords": [
     "mcp",
@@ -21,8 +21,11 @@
   ],
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/index.js mcp",
     "dev": "ts-node src/index.ts",
+    "mcp": "node dist/index.js mcp",
+    "sign-in": "node dist/index.js sign-in",
+    "logout": "node dist/index.js logout",
     "inspect": "npx fastmcp inspect src/mcp.ts",
     "lint": "eslint src --ext .ts",
     "test": "jest"

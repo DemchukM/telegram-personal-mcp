@@ -11,9 +11,9 @@ class Logger {
    */
   info(message: string, data?: any): void {
     const timestamp = new Date().toISOString();
-    console.log(chalk.blue(`[INFO] ${timestamp} - ${message}`));
+    console.error(chalk.blue(`[INFO] ${timestamp} - ${message}`));
     if (data) {
-      console.log(chalk.blue('  Data:'), data);
+      console.error(chalk.blue('  Data:'), data);
     }
   }
 
@@ -24,9 +24,9 @@ class Logger {
    */
   warn(message: string, data?: any): void {
     const timestamp = new Date().toISOString();
-    console.log(chalk.yellow(`[WARN] ${timestamp} - ${message}`));
+    console.error(chalk.yellow(`[WARN] ${timestamp} - ${message}`));
     if (data) {
-      console.log(chalk.yellow('  Data:'), data);
+      console.error(chalk.yellow('  Data:'), data);
     }
   }
 
@@ -52,9 +52,9 @@ class Logger {
     if (process.env.NODE_ENV === 'production') return;
     
     const timestamp = new Date().toISOString();
-    console.log(chalk.gray(`[DEBUG] ${timestamp} - ${message}`));
+    console.error(chalk.gray(`[DEBUG] ${timestamp} - ${message}`));
     if (data) {
-      console.log(chalk.gray('  Data:'), data);
+      console.error(chalk.gray('  Data:'), data);
     }
   }
 }

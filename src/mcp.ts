@@ -84,7 +84,16 @@ process.on('unhandledRejection', (reason) => {
   logger.error('Unhandled Promise rejection', { reason });
 });
 
-// Create server instance (but don't start it)
+// Create server instance
 const server = createServer();
+
+// Auto-start with stdio when run directly (e.g. `tsx src/mcp.ts` via fastmcp inspect)
+import { fileURLToPath } from 'url';
+import { resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+if (resolve(process.argv[1]) === __filename) {
+  startServer(server);
+}
 
 export default server; 
