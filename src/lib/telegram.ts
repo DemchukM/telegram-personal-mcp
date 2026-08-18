@@ -4,6 +4,8 @@ import { computeCheck } from 'telegram/Password.js'
 import { createInterface } from 'readline';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs';
+import os from 'os';
 // @ts-ignore - no type declarations available
 import qrcode from 'qrcode-terminal';
 
@@ -206,6 +208,22 @@ export async function logoutFromTelegram(): Promise<void> {
   logger.info('You are now logged out from Telegram.');
 }
 
+/**
+ * Pick the directory holding the session folder:
+ * 1. TELEGRAM_SESSION_DIR env var, if set
+ * 2. the package root, if a session already exists there (back-compat with
+ *    sessions created by older versions or by running sign-in from the repo)
+ * 3. ~/.mcp-telegram — always writable, independent of install location
+ */
+export function resolveSessionDir(sessionName: string): string {
+  const envDir = process.env.TELEGRAM_SESSION_DIR;
+  if (envDir) return path.resolve(envDir);
+
+  if (fs.existsSync(path.join(PROJECT_ROOT, sessionName))) return PROJECT_ROOT;
+
+  return path.join(os.homedir(), '.mcp-telegram');
+}
+
 // Cache for the client
 let cachedClient: TelegramClient | null = null;
 
@@ -226,10 +244,13 @@ export async function createClient(
     telegramConfig = loadTelegramSettings();
   }
 
-  // StoreSession uses "./" + name internally (node-localstorage), so it's always
-  // relative to cwd. Change cwd to project root to ensure the session folder is
-  // created there, not in system directories like C:\WINDOWS\system32.
-  process.chdir(PROJECT_ROOT);
+  // StoreSession uses "./" + name internally (node-localstorage), so the session
+  // location can only be controlled via cwd. MCP hosts spawn the server with an
+  // arbitrary cwd ("/" on macOS, C:\WINDOWS\system32 on Windows), so chdir to a
+  // stable writable directory before creating the session.
+  const sessionDir = resolveSessionDir(sessionName);
+  fs.mkdirSync(sessionDir, { recursive: true });
+  process.chdir(sessionDir);
   const session = new StoreSession(sessionName);
   cachedClient = new TelegramClient(
     session,
