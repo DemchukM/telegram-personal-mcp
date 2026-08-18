@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { config as dotenvConfig } from 'dotenv';
 import { createInterface } from 'readline';
 
-import { connectToTelegram, logoutFromTelegram } from './lib/index.js';
+import { connectToTelegram, connectToTelegramQR, logoutFromTelegram } from './lib/index.js';
 import { logger } from './utils/logger.js';
 import { config } from './config.js';
 import server, { startServer } from './mcp.js';
@@ -51,6 +51,31 @@ program
     
     try {
       await connectToTelegram(apiId, apiHash, phoneNumber);
+      logger.info('Sign-in successful!');
+      process.exit(0);
+    } catch (error) {
+      logger.error('Failed to sign in:', error);
+      process.exit(1);
+    }
+  });
+
+// Command: sign-in-qr
+program
+  .command('sign-in-qr')
+  .description('Sign in to Telegram by scanning a QR code')
+  .action(async () => {
+    logger.info('Starting Telegram QR sign-in process...');
+
+    const apiId = config.telegram.apiId;
+    const apiHash = config.telegram.apiHash;
+
+    if (!apiId || !apiHash) {
+      logger.error('TELEGRAM_API_ID and TELEGRAM_API_HASH environment variables must be set');
+      process.exit(1);
+    }
+
+    try {
+      await connectToTelegramQR(apiId, apiHash);
       logger.info('Sign-in successful!');
       process.exit(0);
     } catch (error) {

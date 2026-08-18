@@ -1,5 +1,6 @@
 export {
   connectToTelegram,
+  connectToTelegramQR,
   logoutFromTelegram,
   createClient,
   TelegramSettings

@@ -25,6 +25,7 @@
     "dev": "ts-node src/index.ts",
     "mcp": "node dist/index.js mcp",
     "sign-in": "node dist/index.js sign-in",
+    "sign-in-qr": "node dist/index.js sign-in-qr",
     "logout": "node dist/index.js logout",
     "inspect": "npx fastmcp inspect src/mcp.ts",
     "lint": "eslint src --ext .ts",
@@ -35,6 +36,7 @@
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "fastmcp": "^1.20.5",
+    "qrcode-terminal": "^0.12.0",
     "telegram": "^2.19.10",
     "zod": "^3.24.2"
   },

@@ -11,6 +11,8 @@ import { markAsReadTool } from './markAsRead.js';
 import { sendCodeTool } from './sendCode.js';
 import { signInTool } from './signIn.js';
 import { signIn2FATool } from './signIn2FA.js';
+import { signInQRTool } from './signInQR.js';
+import { checkQRLoginTool } from './checkQRLogin.js';
 import { waitForMessagesTool } from './waitForMessages.js';
 
 // New tools
@@ -45,6 +47,8 @@ export const tools = [
   sendCodeTool,
   signInTool,
   signIn2FATool,
+  signInQRTool,
+  checkQRLoginTool,
   // Telegram tools
   listDialogsTool,
   listMessagesTool,
@@ -87,6 +91,8 @@ export {
   sendCodeTool,
   signInTool,
   signIn2FATool,
+  signInQRTool,
+  checkQRLoginTool,
   listDialogsTool,
   listMessagesTool,
   searchDialogsTool,
